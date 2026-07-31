@@ -178,6 +178,23 @@ A file that is unclear is also worth an issue. These notes exist to save
 somebody a fortnight, and a paragraph that has to be read twice is failing at
 that.
 
+### Two things an issue will not get an answer to
+
+Worth saying before anybody spends time writing one up.
+
+**Reading a backup that is not yours.** Not a partner's, not an ex-partner's,
+not an employee's. It does not change anything that the file is already on your
+computer, or that the situation is unfair, or that you are certain what the
+messages say. Whether you may read a particular backup is a question about
+consent and about the law where you live, and an issue thread is not where it
+gets settled.
+
+**A way past a forgotten password.** There is none. That is the subject of
+[`encrypted-backups.md`](encrypted-backups.md) rather than an omission from it,
+and guesses about it are not going to be hosted here.
+
+Everything else about the format is fair game, from anybody.
+
 ## Licence
 
 CC BY 4.0. Quote it, paste it into your own documentation, translate it, build
@@ -196,3 +213,10 @@ it anywhere above. What is described is Apple's format, which is not ours, was
 never secret, and is only scattered: half documented, half folklore, and wrong
 in enough places that verifying it against real backups took longer than reading
 it did. That is the part nobody else needs to repeat.
+
+## Trademarks
+
+Apple, iPhone, iMessage, iTunes and macOS are trademarks of Apple Inc. These
+notes are unofficial, they describe a file format as observed from real backups,
+and they reproduce no Apple code or documentation. Nothing here is affiliated
+with, endorsed by or sponsored by Apple Inc.
