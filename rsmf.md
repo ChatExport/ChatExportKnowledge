@@ -77,9 +77,10 @@ partial, watermarked or produced under some limit, that statement belongs in a
 edited message had before it was edited**.
 
 Getting those earlier versions out of `sms.db` in the first place is a separate
-problem, and the hard part: see
-[`attributedBody.md`](attributedBody.md) for decoding the text at all, and note
-that iOS keeps prior versions inside `message_summary_info`.
+problem, and the hard part:
+[`message-summary-info.md`](message-summary-info.md) is the blob iOS keeps them
+in, and [`attributedBody.md`](attributedBody.md) is how the text comes out of
+each one.
 
 ### Attachments render inline, conditionally
 
