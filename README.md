@@ -17,6 +17,7 @@ save you the weeks.
 |---|---|
 | `README.md` | The message database: tables, columns, what changed between iOS versions, and Apple time |
 | [`attributedBody.md`](attributedBody.md) | Why the `text` column is often NULL since iOS 16, and how to get the string out |
+| [`message-summary-info.md`](message-summary-info.md) | Edited and unsent messages: the blob that keeps what a message used to say |
 | [`manifest-structure.md`](manifest-structure.md) | Backup folder layout, the SHA1 file naming rule, `Manifest.db` |
 | [`encrypted-backups.md`](encrypted-backups.md) | Keybag, key derivation, per-file keys |
 | [`what-cannot-be-recovered.md`](what-cannot-be-recovered.md) | The honest list of what a backup does not contain |
