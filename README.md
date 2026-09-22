@@ -20,6 +20,7 @@ save you the weeks.
 | [`manifest-structure.md`](manifest-structure.md) | Backup folder layout, the SHA1 file naming rule, `Manifest.db` |
 | [`encrypted-backups.md`](encrypted-backups.md) | Keybag, key derivation, per-file keys |
 | [`what-cannot-be-recovered.md`](what-cannot-be-recovered.md) | The honest list of what a backup does not contain |
+| [`rsmf.md`](rsmf.md) | The RSMF container: the outer email, the manifest schema, what it cannot carry |
 
 ---
 
