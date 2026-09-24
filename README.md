@@ -21,6 +21,7 @@ save you the weeks.
 | [`manifest-structure.md`](manifest-structure.md) | Backup folder layout, the SHA1 file naming rule, `Manifest.db` |
 | [`encrypted-backups.md`](encrypted-backups.md) | Keybag, key derivation, per-file keys |
 | [`what-cannot-be-recovered.md`](what-cannot-be-recovered.md) | The honest list of what a backup does not contain |
+| [`wal.md`](wal.md) | The `-wal` file beside `sms.db`: how reading a backup silently loses the newest messages, and how reading one writes into it |
 | [`attachments.md`](attachments.md) | The `attachment` table, the `MediaDomain` path trap, U+FFFC, and why HEIC renders blank |
 | [`transports.md`](transports.md) | iMessage, SMS, MMS and RCS: the `service` column, and why the green bubble stopped meaning SMS |
 | [`rsmf.md`](rsmf.md) | The RSMF container: the outer email, the manifest schema, what it cannot carry |
@@ -32,6 +33,11 @@ save you the weeks.
 Messages live in a SQLite database at `Library/SMS/sms.db` in `HomeDomain`.
 Historically it was called `chat.db` on macOS and the two names are used
 interchangeably in most writing about this. The layout is the same.
+
+Often it is two files rather than one: iOS runs in WAL mode, so a backup
+usually also carries `sms.db-wal`, under its own unrelated hashed name. Opening
+the database without it loses the newest messages and reports nothing.
+[`wal.md`](wal.md) is the first thing to read if you are writing a reader.
 
 The tables that matter:
 
