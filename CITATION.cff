@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+title: "How iOS stores messages, and how to read a backup"
+message: >-
+  If you use these notes in a paper, a report or an expert opinion, please cite
+  them. The CC BY 4.0 licence asks for attribution, and a citation is how that
+  is done in writing.
+type: dataset
+authors:
+  - family-names: Kowalski
+    given-names: Krzysztof
+    affiliation: Bokart
+    city: Warsaw
+    country: PL
+abstract: >-
+  Notes on Apple's on-device message database and on the layout of an iPhone
+  backup, verified against real backups from iOS 11 to iOS 26. Covers the sms.db
+  schema and how to tell the iOS generation apart without a version field, Apple
+  absolute time, the attributedBody blob that holds the text when the text column
+  is NULL, the message_summary_info blob that keeps what an edited message used to
+  say, the SHA1 backup file naming rule, the write-ahead log beside sms.db,
+  attachment paths and the MediaDomain they resolve under, the SMS, MMS, RCS and
+  iMessage transports, encrypted backups, the RSMF container, and an honest
+  account of what a backup does not contain.
+keywords:
+  - iOS
+  - iPhone
+  - sms.db
+  - iMessage
+  - SQLite
+  - digital forensics
+  - eDiscovery
+  - file format
+  - backup
+license: CC-BY-4.0
+repository-code: "https://github.com/ChatExport/ChatExportKnowledge"
+url: "https://github.com/ChatExport/ChatExportKnowledge"

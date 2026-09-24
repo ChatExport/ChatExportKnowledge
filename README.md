@@ -228,6 +228,11 @@ CC BY 4.0. Quote it, paste it into your own documentation, translate it, build
 on it. The one condition is attribution, and a link back to this repository
 satisfies it.
 
+If you are writing something that carries a bibliography — a paper, a report, an
+expert opinion — `CITATION.cff` in this repository holds the details in a form
+GitHub and most reference managers read directly. Use the "Cite this repository"
+button rather than retyping it.
+
 ## Who wrote this
 
 Krzysztof Kowalski, Bokart, Warsaw. These notes came out of building
