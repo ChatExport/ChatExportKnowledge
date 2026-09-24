@@ -21,6 +21,7 @@ save you the weeks.
 | [`manifest-structure.md`](manifest-structure.md) | Backup folder layout, the SHA1 file naming rule, `Manifest.db` |
 | [`encrypted-backups.md`](encrypted-backups.md) | Keybag, key derivation, per-file keys |
 | [`what-cannot-be-recovered.md`](what-cannot-be-recovered.md) | The honest list of what a backup does not contain |
+| [`attachments.md`](attachments.md) | The `attachment` table, the `MediaDomain` path trap, U+FFFC, and why HEIC renders blank |
 | [`transports.md`](transports.md) | iMessage, SMS, MMS and RCS: the `service` column, and why the green bubble stopped meaning SMS |
 | [`rsmf.md`](rsmf.md) | The RSMF container: the outer email, the manifest schema, what it cannot carry |
 
@@ -39,7 +40,7 @@ The tables that matter:
 | `message` | One row per message, plus one row per reaction and per system event |
 | `chat` | One row per conversation, 1:1 or group |
 | `handle` | One row per counterpart address: a phone number or an email |
-| `attachment` | One row per file sent or received |
+| `attachment` | One row per file sent or received. See [`attachments.md`](attachments.md) |
 | `chat_message_join` | Which messages belong to which conversation |
 | `chat_handle_join` | Which participants belong to which conversation |
 | `message_attachment_join` | Which attachments belong to which message |
@@ -164,8 +165,8 @@ has a real need and only one backup.
 
 ## What these notes do not cover yet
 
-- Attachment storage layout on the device beyond the paths recorded in the
-  database.
+- Stickers and on-device thumbnails, which [`attachments.md`](attachments.md)
+  names as its own boundary.
 - Group chat renames and participant changes over time, which are recorded as
   system events but not reconstructed here into a timeline.
 - Which `message` columns behave differently on a carrier row than on an

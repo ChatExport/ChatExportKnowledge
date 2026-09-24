@@ -81,6 +81,10 @@ The hash is computed over the path **without** that prefix. Strip the leading
 `~/` before hashing, or you will produce names that are not in the backup and
 conclude that attachments are missing when they are not.
 
+The prefix is only half of it: attachments are in **`MediaDomain`**, not the
+`HomeDomain` that holds `sms.db`. Both corrections are needed and each fails the
+same silent way. See [`attachments.md`](attachments.md).
+
 ### A missing file is a normal result
 
 A lookup that finds nothing usually means the file was never backed up. This is
@@ -127,6 +131,6 @@ nothing to do with the database.
 
 ---
 
-CC BY 4.0, so quote it freely and link back. One of [five files](README.md) on
+CC BY 4.0, so quote it freely and link back. One of [the notes](README.md) on
 Apple's message format, written while building
 [ChatExport](https://getchatexport.com).
