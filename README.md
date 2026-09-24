@@ -21,6 +21,7 @@ save you the weeks.
 | [`manifest-structure.md`](manifest-structure.md) | Backup folder layout, the SHA1 file naming rule, `Manifest.db` |
 | [`encrypted-backups.md`](encrypted-backups.md) | Keybag, key derivation, per-file keys |
 | [`what-cannot-be-recovered.md`](what-cannot-be-recovered.md) | The honest list of what a backup does not contain |
+| [`transports.md`](transports.md) | iMessage, SMS, MMS and RCS: the `service` column, and why the green bubble stopped meaning SMS |
 | [`rsmf.md`](rsmf.md) | The RSMF container: the outer email, the manifest schema, what it cannot carry |
 
 ---
@@ -64,11 +65,12 @@ participants are not a column: they are rows in `chat_handle_join`.
 | `date_edited` | iOS 16 and later. 0 or NULL means never edited |
 | `date_retracted` | iOS 16 and later. Non-zero means the sender unsent it |
 | `associated_message_guid` | For a reaction: the target, as `p:0/GUID` or `bp:GUID` |
-| `associated_message_type` | 0 normal. 2000 to 2005 add a reaction. 3000 to 3005 remove one |
+| `associated_message_type` | 0 normal. **2000 to 2999** add a reaction, **3000 to 3999** remove one. Match the whole block, not the codes in use today |
+| `associated_message_emoji` | iOS 18 and later. The emoji of an arbitrary-emoji tapback (type 2006). Absent on every earlier schema |
 | `thread_originator_guid` | iOS 14 and later. The message this one replies to |
 | `message_summary_info` | Blob. Edit history and retraction details |
 | `item_type` | 0 for a real message. Other values are system events such as a group rename |
-| `service` | `iMessage` or `SMS` |
+| `service` | `iMessage`, `SMS` or, from iOS 18, `RCS`. See [`transports.md`](transports.md) |
 
 Two consequences of that table which catch most implementations:
 
@@ -76,6 +78,16 @@ Two consequences of that table which catch most implementations:
 `associated_message_type` pointing at another message's GUID. Count rows
 naively and every conversation is inflated. Render rows naively and every
 "Liked a message" appears as its own line in the transcript.
+
+Match the **whole** ranges, 2000–2999 and 3000–3999, rather than the codes you
+have seen. For years the only values in use were 2000–2005, the six classic
+tapbacks, and a great deal of code tests for exactly those. iOS 18 appended
+2006, a tapback carrying an arbitrary emoji in the separate
+`associated_message_emoji` column, and 2007, a sticker. Anything testing for
+2000–2005 turned both of those into ordinary messages in the transcript —
+"a message nobody wrote", appearing as a line of its own with no text. Apple
+only ever appends to these blocks, so the range is the safe test and the
+enumeration is not.
 
 **System events are messages too.** `item_type` other than 0 marks things like
 someone being added to a group or a group being renamed. They are worth showing,
@@ -154,13 +166,19 @@ has a real need and only one backup.
 
 - Attachment storage layout on the device beyond the paths recorded in the
   database.
-- The `message_summary_info` blob format in detail, beyond its role in edit
-  history.
 - Group chat renames and participant changes over time, which are recorded as
   system events but not reconstructed here into a timeline.
-- SMS specific fields that differ from iMessage rows.
+- Which `message` columns behave differently on a carrier row than on an
+  iMessage one. [`transports.md`](transports.md) covers telling the transports
+  apart, which is the half that comes up most; a column-by-column comparison is
+  still missing.
 - Anything about Messages in iCloud, which is a sync service and not a file
   format.
+
+The `message_summary_info` blob was on this list until
+[`message-summary-info.md`](message-summary-info.md) was written, and the entry
+outlived it by two days. If you find something else here described as missing
+that is in fact covered, that is worth an issue too.
 
 ---
 
