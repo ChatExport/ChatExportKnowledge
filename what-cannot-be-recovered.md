@@ -39,6 +39,7 @@ Two consequences people find counterintuitive:
 |---|---|---|
 | Message present on the phone when the backup ran | Yes | Everything: text, time, attachments, receipts |
 | Message deleted before the backup ran | **No** | Nothing at all. It is not in the file |
+| Message older than the phone's Keep Messages setting | **No** | The phone deleted it itself, and never told anyone. See below |
 | Message deleted after an older backup was made | Yes, from that older backup | The older backup predates the deletion |
 | Message deleted within roughly the last 30 days, iOS 16 and later | Usually | Full text and time, plus the date it was deleted. See below |
 | Message deleted more than roughly 30 days ago | **No** | The row is purged from the device, so it is not in any backup made afterwards |
@@ -61,9 +62,14 @@ period, then purged.
 In the database this shows up as a separate join table,
 `chat_recoverable_message_join`, rather than a flag on the message row. A row
 reachable only through that table is one that the phone would not show you in
-Messages today. The deletion date is recorded alongside it, which is why a
-document produced from such a row can state when it was deleted rather than
-presenting it as an ordinary message.
+Messages today. A `delete_date` column records when it went, which is why a
+document produced from such a row can state that rather than presenting it as
+an ordinary message.
+
+Check for that column rather than selecting it. It is not present on every
+schema carrying the table, and a query naming a column that is not there fails
+the whole read, turning a recoverable-messages feature into a backup that will
+not open at all.
 
 Three honest qualifications:
 
@@ -78,6 +84,41 @@ Three honest qualifications:
 Anything presented as "recovered" from this store should be labelled as such in
 whatever document it ends up in. It is a message the phone no longer shows, and
 presenting it as an ordinary line of a conversation misdescribes it.
+
+---
+
+## The setting that deletes messages without telling anybody
+
+This is the most common explanation of "my conversation only goes back a few
+weeks", and almost nobody looks for it, because it does not feel like a
+deletion. Nobody deleted anything. The phone did it on a schedule the owner set
+once and forgot.
+
+**Settings → Messages → Keep Messages** offers 30 Days, 1 Year and Forever. Set
+to anything but Forever, iOS permanently removes messages older than the
+horizon **on the device**. Not to a Recently Deleted folder, not with a prompt,
+and not recoverably. So they are not in this backup, they were not in the one
+before it, and no tool will bring them back.
+
+The setting is in the backup, and reading it is the difference between telling
+somebody why their history stops and leaving them to conclude your software
+lost it:
+
+```
+HomeDomain / Library/Preferences/com.apple.MobileSMS.plist
+key: KeepMessageForDays
+```
+
+Apple writes `30` or `365`. **Forever leaves the key out entirely**, so an
+absent key and an absent file are the same answer, and both mean "no horizon,
+or we cannot tell".
+
+Fold those two into one silent answer rather than guessing. Every way of
+failing to read this — the file was not backed up, the plist would not parse,
+the key is missing, Apple renames it in some future iOS — has to end in saying
+nothing. The only thing the value is ever used for is telling somebody that
+part of their history is gone, and an invented warning about missing evidence
+is worse than a missed one.
 
 ---
 
@@ -187,6 +228,6 @@ the reason to write the password down somewhere you will still have it.
 
 ---
 
-CC BY 4.0, so quote it freely and link back. One of [five files](README.md) on
+CC BY 4.0, so quote it freely and link back. One of [the notes](README.md) on
 Apple's message format, written while building
 [ChatExport](https://getchatexport.com).
