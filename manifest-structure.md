@@ -121,6 +121,37 @@ that reason. A folder satisfying only the first is still being written, and
 opening it produces a confusing "database missing or corrupted" error that has
 nothing to do with the database.
 
+### Nor is an exit code
+
+If you drive a backup from a tool rather than from Apple's own software, the
+same caution applies to how the run ended.
+
+Observed on an iPhone 16 running iOS 26.5, with an encrypted backup: the tool
+connected, drew a progress bar at 0% for five minutes, and exited with status 0.
+On disk it had rewritten `Info.plist` and `Manifest.plist` and nothing else.
+`Status.plist` and `Manifest.db` still carried timestamps from twelve days
+earlier. A clean exit, a folder that looked like a backup, and not one message
+newer than a fortnight in it.
+
+The reason the disguise works is which files get touched when:
+
+| File | When it is written |
+|---|---|
+| `Info.plist`, `Manifest.plist` | During the opening handshake, **before any data moves** |
+| `Manifest.db` | Grows as files actually arrive |
+| `Status.plist` | Rewritten when a run ends |
+
+So the two files a handshake writes are exactly the two that cannot tell you
+anything, and they are also the two whose freshness is easiest to notice. Check
+the modification times of `Status.plist` and `Manifest.db` against when you
+started the run; if neither moved, nothing was copied, whatever the exit code
+said.
+
+Allow a couple of seconds of tolerance when you compare. Filesystem timestamps
+are coarser than a program's clock — FAT rounds to two seconds and network
+shares can be worse — so a marker written immediately after the run began can
+legitimately stamp fractionally before it.
+
 ## What these notes do not cover
 
 - Backup fragmentation across multiple snapshots, beyond the `Snapshot` folder
